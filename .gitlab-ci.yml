@@ -7,45 +7,6 @@ stages:
 variables:
   GITHUB_HOST: declanoconnor
   GITHUB_PATH: testopenapispec
-  SSH_PUSH_KEY: "-----BEGIN OPENSSH PRIVATE KEY-----
-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
-AQIDBA==
------END OPENSSH PRIVATE KEY-----"
 
 deploy-github:
     stage: deploy-github
@@ -66,7 +27,7 @@ deploy-github:
         - git add "xyz"
         #- git add api_spec.jsona
         - git commit -m "My CI commit"
-        - git fetch --unshallow ssh_origin HEAD:main
+        - git fetch --unshallow testopenapispec
         - git push ssh_origin HEAD:main --force
         - git tag MyCiTag
         - git push --tags ssh_origin
