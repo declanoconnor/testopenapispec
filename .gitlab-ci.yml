@@ -1,6 +1,8 @@
 stages:
   - deploy-github
 
+#https://stackoverflow.com/questions/51716044/how-do-i-push-to-a-repo-from-within-a-gitlab-ci-pipeline
+
 variables:
   GITHUB_HOST: declanoconnor
   GITHUB_PATH: testopenapispec
@@ -24,6 +26,6 @@ deploy-github:
         - git add "xyz"
         #- git add api_spec.jsona
         - git commit -m "My CI commit"
-        - git push #ssh_origin main --force
+        - git push ssh_origin HEAD:origin/main
         - git tag MyCiTag
         - git push --tags ssh_origin
