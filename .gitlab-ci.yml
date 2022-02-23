@@ -66,6 +66,6 @@ deploy-github:
         - git add "xyz"
         #- git add api_spec.jsona
         - git commit -m "My CI commit"
-        - git push ssh_origin HEAD:main
+        - git push ssh_origin HEAD:main --force
         - git tag MyCiTag
         - git push --tags ssh_origin
