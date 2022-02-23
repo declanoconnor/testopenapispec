@@ -18,7 +18,9 @@ deploy-github:
         - git remote remove ssh_origin || true
         - git remote add ssh_origin "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git"
     script:
-        - git add api_spec.json
+        - touch "xyz"  # Make an edit
+        - git add "xyz"
+        #- git add api_spec.json
         - git commit -m "My CI commit"
         - git push ssh_origin HEAD:main
         - git tag MyCiTag
