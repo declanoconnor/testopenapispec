@@ -2,8 +2,8 @@ stages:
   - deploy-github
 
 variables:
-  CI_SERVER_HOST: declanoconnor
-  CI_PROJECT_PATH: testopenapispec
+  GITHUB_HOST: declanoconnor
+  GITHUB_PATH: testopenapispec
 
 deploy-github:
     stage: deploy-github
@@ -12,11 +12,13 @@ deploy-github:
     before_script:
         - mkdir ~/.ssh/
         - echo "${SSH_PUSH_KEY}" > ~/.ssh/id_rsa
+        #- ssh-keyscan $CI_SERVER_HOST > ~/.ssh/known_hosts
+        - ssh-keyscan -t rsa $CI_SERVER_HOST >> ~/.ssh/known_hosts
         - chmod 600 ~/.ssh/id_rsa
         - git config user.email "ci@example.com"
         - git config user.email "CI"
         - git remote remove ssh_origin || true
-        - git remote add ssh_origin "git@github.com@$CI_SERVER_HOST:$CI_PROJECT_PATH.git"
+        - git remote add ssh_origin "git@github.com@$GITHUB_HOST:$GITHUB_PATH.git"
     script:
         - touch "xyz"  # Make an edit
         - git add "xyz"
