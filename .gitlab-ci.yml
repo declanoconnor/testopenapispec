@@ -29,6 +29,7 @@ deploy-github:
         - git commit -m "My CI commit"
         - git checkout -b main
         #- git pull
+        - git fetch --unshallow
         - git push ssh_origin HEAD:main --force
         - git tag MyCiTag
         - git push --tags ssh_origin
