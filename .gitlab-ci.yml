@@ -1,13 +1,27 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
-stages:
-- test
-sast:
-  stage: test
-include:
-- template: Security/SAST.gitlab-ci.yml
+variables:
+  CI_SERVER_HOST: declanoconnor
+  CI_PROJECT_PATH: testopenapispec
+  EMAIL: declanoconnor
+  #CI_KNOWN_HOSTS: SHA256:0EHqdhk2S/3xjYu7+SxKbXYTpd/IS3TYl6oRbLEnwv0
+
+deploy-spec-to-github:
+    stage: my_push_stage
+    #resource_group: this_option_comes_handy_when_pushing
+    only:
+        - main
+    before_script:
+        - mkdir ~/.ssh/
+        #- echo "${CI_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+        - echo "${SSH_PUSH_KEY}" > ~/.ssh/id_rsa
+        - chmod 600 ~/.ssh/id_rsa
+        #- git config user.email "ci@example.com"
+        - git config user.name "CI"
+        - git remote remove ssh_origin || true  # Local repo state may be cached
+        - git remote add ssh_origin "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git"
+    script:
+        - git add api_spec.json
+        - git commit -m "My CI commit"
+        - git push ssh_origin HEAD:main  # ❗ this pushes to master,
+                                           # use $CI_BUILD_REF_NAME if you want to push to current branch
+        - git tag MyCiTag  # If you need to add a tag you can do that too
+        - git push --tags ssh_origin
