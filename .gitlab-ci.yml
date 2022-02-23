@@ -54,8 +54,8 @@ deploy-github:
     before_script:
         - mkdir ~/.ssh/
         - echo "${SSH_PUSH_KEY}" > ~/.ssh/id_rsa
-        - ssh-keyscan $CI_SERVER_HOST > ~/.ssh/known_hosts
-        #- ssh-keyscan -t rsa $CI_SERVER_HOST >> ~/.ssh/known_hosts
+        - ssh-keyscan -t rsa $CI_SERVER_HOST >> ~/.ssh/known_hosts
+        - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
         - chmod 600 ~/.ssh/id_rsa
         - git config user.email "ci@example.com"
         - git config user.email "CI"
