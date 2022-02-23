@@ -6,7 +6,7 @@ variables:
   CI_PROJECT_PATH: testopenapispec
 
 deploy-github:
-    stage: my_push_stage
+    stage: deploy-github
     only:
         - main
     before_script:
