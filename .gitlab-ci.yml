@@ -28,7 +28,7 @@ deploy-github:
         #- git add api_spec.jsona
         - git commit -m "My CI commit"
         - git checkout -b main
-        - git pull
+        #- git pull
         - git push ssh_origin HEAD:main --force
         - git tag MyCiTag
         - git push --tags ssh_origin
