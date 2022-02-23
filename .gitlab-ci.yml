@@ -18,12 +18,12 @@ deploy-github:
         - git config user.email "ci@example.com"
         - git config user.email "CI"
         - git remote remove ssh_origin || true
-        - git remote add ssh_origin "git@$GITHUB_HOST:$GITHUB_PATH.git"
+        - git remote add ssh_origin "git@github.com:declanoconnor/testopenapispec.git"
     script:
         - touch "xyz"  # Make an edit
         - git add "xyz"
         #- git add api_spec.jsona
         - git commit -m "My CI commit"
-        - git push ssh_origin main --force
+        - git push #ssh_origin main --force
         - git tag MyCiTag
         - git push --tags ssh_origin
