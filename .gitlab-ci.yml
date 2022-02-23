@@ -20,7 +20,7 @@ deploy-github:
     script:
         - touch "xyz"  # Make an edit
         - git add "xyz"
-        #- git add api_spec.json
+        #- git add api_spec.jsona
         - git commit -m "My CI commit"
         - git push ssh_origin HEAD:main
         - git tag MyCiTag
