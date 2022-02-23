@@ -2,7 +2,7 @@ variables:
   CI_SERVER_HOST: declanoconnor
   CI_PROJECT_PATH: testopenapispec
 
-deploy-spec-to-github:
+deploy:
     stage: my_push_stage
     only:
         - main
