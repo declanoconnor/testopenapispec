@@ -1,0 +1,1264 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.1",
+        "title": "Hyperchain"
+    },
+    "paths": {
+        "/newPublic": {
+            "post": {
+                "summary": "Request a OAuth2 Token",
+                "operationId": "getToken",
+                "tags": [
+                    "Authentication"
+                ],
+                "security": [
+                    {
+                        "HyperChainAuthorizerBasic": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Details about vessel arrivals",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Token"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/token": {
+            "post": {
+                "summary": "Request a OAuth2 Token",
+                "operationId": "getToken",
+                "tags": [
+                    "Authentication"
+                ],
+                "security": [
+                    {
+                        "HyperChainAuthorizerBasic": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Details about vessel arrivals",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Token"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/arrivals": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return Vessel Arrivals for client",
+                "operationId": "listVessels",
+                "tags": [
+                    "Arrivals"
+                ],
+                "parameters": [
+                    {
+                        "name": "minimumETAVarianceHours",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "schema": {
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Details about vessel arrivals",
+                        "headers": {
+                            "x-next": {
+                                "description": "A link to the next page of responses",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/Arrival"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/arrivals/{port}": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return Vessel Arrivals for client",
+                "operationId": "listVessels",
+                "tags": [
+                    "Arrivals"
+                ],
+                "parameters": [
+                    {
+                        "name": "port",
+                        "in": "path",
+                        "description": "UN/LOCODE of the Port of Discharge",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 5,
+                            "maxLength": 5
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Details about vessel arrivals at a specific port",
+                        "headers": {
+                            "x-next": {
+                                "description": "A link to the next page of responses",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Arrival"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/arrivals/{port}/{imo_number}": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return Vessel Arrivals for client",
+                "operationId": "listVessels",
+                "tags": [
+                    "Arrivals"
+                ],
+                "parameters": [
+                    {
+                        "name": "imo_number",
+                        "in": "path",
+                        "description": "The International Maritime Organization (IMO) number is a unique identifier for ships",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 7,
+                            "maxLength": 8
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "port",
+                        "description": "UN/LOCODE of the Port of Discharge",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "string",
+                            "minLength": 5,
+                            "maxLength": 5
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Details about vessel arrivals at a specific port",
+                        "headers": {
+                            "x-next": {
+                                "description": "A link to the next page of responses",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/Location"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/arrivalsBoard": {
+            "get": {
+                "summary": "Return All Active Vessel Arrivals",
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "schema": {
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: A list of public arrivals objects",
+                        "headers": {
+                            "x-next": {
+                                "description": "A link to the next page of responses",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArrivalsBoard"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/arrivalsPorts": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return Active Ports for client",
+                "operationId": "listPorts",
+                "tags": [
+                    "Arrivals"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: List of Active Ports",
+                        "headers": {
+                            "x-next": {
+                                "description": "A link to the next page of responses",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/Location"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return shipments for client",
+                "operationId": "listShipments",
+                "tags": [
+                    "Shipments"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: List of Shipments",
+                        "headers": {
+                            "x-next": {
+                                "description": "A link to the next page of responses",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/Shipment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/byArrival/{port}/{imo_number}": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return shipments for client",
+                "operationId": "listShipments",
+                "tags": [
+                    "Shipments"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: List of Shipments",
+                        "headers": {
+                            "x-next": {
+                                "description": "A link to the next page of responses",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/Shipment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "port",
+                        "description": "UN/LOCODE of the Port of Discharge",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "string",
+                            "minLength": 5,
+                            "maxLength": 5
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "imo_number",
+                        "description": "Vessel IMO Number to identify the specific vessel.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "maxLength": 7
+                        }
+                    }
+                ]
+            }
+        },
+        "/shipments/{reference}": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return Shipment Detail by Forwarder Reference",
+                "operationId": "shipmentDetail",
+                "tags": [
+                    "Shipments"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reference",
+                        "description": "Forwarder Reference for the Shipment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Shipments details for a specific reference",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Shipment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{reference}/documents": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return Documents by Forwarder Reference",
+                "operationId": "getDocuments",
+                "tags": [
+                    "Documents"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reference",
+                        "description": "Forwarder Reference for the Shipment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Documents for a specific reference",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Documents"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{reference}/documentUploadUrl": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Obtain a Pre-signed URL to Upload Documents to a Shipment by Forwarder Reference",
+                "operationId": "getUploadUrl",
+                "tags": [
+                    "Documents"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reference",
+                        "description": "Forwarder Reference for the Shipment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: A URL to HTTP PUT a specific document",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PresignedUrl"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{reference}/transportEquipment": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return containers or transport equipment by Forwarder Reference",
+                "operationId": "getEquipment",
+                "tags": [
+                    "TransportEquipment"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reference",
+                        "description": "Forwarder Reference for the Shipment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Transport Equipment for a specific reference",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransportEquipment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{reference}/milestones": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "summary": "Return shipment milestones by Forwarder Reference",
+                "operationId": "getShipmentMilestones",
+                "tags": [
+                    "Milestones"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reference",
+                        "description": "Forwarder Reference for the Shipment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Milestones for a specific reference",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Milestones"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/containers": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "status",
+                        "description": "The Tracking Status for the Container",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "PROCESSING",
+                                "ONQUAY",
+                                "SHIPPED"
+                            ]
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "view",
+                        "description": "Each view maps to overview page",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "SHIPPEDONBOARD",
+                                "AWAITINGARRIVAL",
+                                "AWAITINGADELIVERY",
+                                "DELIVERED",
+                                "RESTITUTED"
+                            ]
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "vesselName",
+                        "description": "The Tracking Status for the Container",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "summary": "Return All Containers for client by with All status types",
+                "operationId": "containerDetail",
+                "tags": [
+                    "Containers"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Containers for client",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/Container"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/containers/{reference}": {
+            "get": {
+                "security": [
+                    {
+                        "HyperChainAuthorizer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reference",
+                        "description": "Complete Data for a Container",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "summary": "Return Containers by container number for client by with All status types",
+                "operationId": "containerDetail",
+                "tags": [
+                    "Containers"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sample response: Container Number for client",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Container"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Arrival": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/PublicArrival"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "voyage_number": {
+                                "type": "string"
+                            },
+                            "shipment_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "PublicArrival": {
+                "type": "object",
+                "required": [
+                    "imo_number",
+                    "vessel_name",
+                    "scheduled_eta",
+                    "predictive_eta",
+                    "actual_arrival",
+                    "eta_variance",
+                    "port_discharge",
+                    "port_discharge_name"
+                ],
+                "properties": {
+                    "scac_code": {
+                        "type": "string"
+                    },
+                    "port_discharge_name": {
+                        "type": "string"
+                    },
+                    "imo_number": {
+                        "type": "string",
+                        "maxLength": 9
+                    },
+                    "vessel_name": {
+                        "type": "string",
+                        "maxLength": 80
+                    },
+                    "port_discharge": {
+                        "type": "string",
+                        "minLength": 5,
+                        "maxLength": 5
+                    },
+                    "scheduled_eta": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "predictive_eta": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "actual_arrival": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "eta_variance": {
+                        "type": "integer",
+                        "minimum": -1000,
+                        "maximum": 1000
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "required": [
+                    "code",
+                    "message"
+                ],
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Shipment": {
+                "type": "object",
+                "properties": {
+                    "transport_mode": {
+                        "type": "string",
+                        "enum": [
+                            "sea",
+                            "air",
+                            "road"
+                        ],
+                        "nullable": true
+                    },
+                    "shipment_created_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "forwarder_reference": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "port_loading": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "milestones": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Milestones"
+                    },
+                    "vessel_name": {
+                        "type": "string"
+                    },
+                    "equipment": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Arrival"
+                        }
+                    },
+                    "total_containers": {
+                        "type": "number",
+                        "minimum": 0
+                    },
+                    "port_discharge": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "master_bill_reference": {
+                        "type": "string"
+                    },
+                    "house_bill_reference": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "imo_number": {
+                        "type": "string",
+                        "maxLength": 9,
+                        "nullable": true
+                    },
+                    "voyage_number": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "example": {
+                    "port_loading": {
+                        "name": "QINGDAO",
+                        "unlocode": "CNTAO"
+                    },
+                    "forwarder_reference": "ACD1228",
+                    "milestones": {
+                        "departed_at_pol_actual": "2021-11-27T00:00:00",
+                        "cleared_customs_estimate": null,
+                        "booking_date_actual": "2021-11-19T00:00:00",
+                        "departed_at_pol_estimate": null,
+                        "booking_date_estimate": null,
+                        "arrived_at_pol_estimate": null,
+                        "arrived_at_pol_actual": null,
+                        "arrived_at_pod_predicted": "2021-12-25T10:12:05",
+                        "arrived_at_pod_estimate": "2021-12-25T00:00:00",
+                        "arrived_at_pod_actual": null,
+                        "cleared_customs_actual": null
+                    },
+                    "vessel_name": "EVER GLORY",
+                    "equipment": [
+                        {
+                            "seal_number": "S1231234",
+                            "identifier": "ABCU1234567",
+                            "teu_count": "2",
+                            "loading_date": null,
+                            "number_packages": "2",
+                            "restituted_date": null,
+                            "loading_reference": null,
+                            "iso_type_code": "45GP",
+                            "cube": null,
+                            "gross_weight": null,
+                            "net_weight": null
+                        },
+                        {
+                            "seal_number": "S1231235",
+                            "identifier": "ABCU1234567",
+                            "teu_count": "2",
+                            "loading_date": null,
+                            "number_packages": "1",
+                            "restituted_date": null,
+                            "loading_reference": null,
+                            "iso_type_code": "45GP",
+                            "cube": null,
+                            "gross_weight": null,
+                            "net_weight": null
+                        }
+                    ],
+                    "total_containers": "2",
+                    "port_discharge": {
+                        "name": "FELIXSTOWE",
+                        "unlocode": "GBFXT"
+                    },
+                    "master_bill_reference": "ABCD123456"
+                }
+            },
+            "Container": {
+                "type": "object",
+                "properties": {
+                    "container_number": {
+                        "type": "string",
+                        "nullable": false,
+                        "maxLength": 11,
+                        "minLength": 11
+                    },
+                    "vessel_name": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "departed_at_pol_estimate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "departed_at_pol_actual": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "scac_code": {
+                        "type": "string",
+                        "nullable": false,
+                        "maxLength": 4,
+                        "minLength": 4
+                    },
+                    "port_loading": {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "container_status": {
+                        "type": "string",
+                        "enum": [
+                            "PROCESSING",
+                            "ONQUAY",
+                            "SHIPPED"
+                        ]
+                    }
+                },
+                "example": {
+                    "container_number": "BICU1234567",
+                    "vessel_name": "EVER GLORY",
+                    "departed_at_pol_estimate": "2022-01-18T12:10:10",
+                    "departed_at_pol_actual": "2022-01-18T15:10:10",
+                    "scac_code": "MSCU",
+                    "port_loading": {
+                        "unlocode": "CNTAO",
+                        "name": "QINGDAO"
+                    },
+                    "container_status": "PROCESSING"
+                }
+            },
+            "Documents": {
+                "type": "object",
+                "properties": {
+                    "bill_lading": {
+                        "$ref": "#/components/schemas/Document"
+                    },
+                    "packing_list": {
+                        "$ref": "#/components/schemas/Document"
+                    },
+                    "commercial_invoice": {
+                        "$ref": "#/components/schemas/Document"
+                    }
+                }
+            },
+            "Document": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "uploaded_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "uploaded_by": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "nullable": true
+                    }
+                },
+                "example": {
+                    "name": null,
+                    "uploaded_date": null,
+                    "uploaded_by": null,
+                    "url": null
+                }
+            },
+            "PresignedUrl": {
+                "type": "object",
+                "properties": {
+                    "uploadUrl": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "filename": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "uploadUrl": "https://dev-documents.s3.amazonaws.com/POUNDLAND/e53c640a-7cad-4b00-aa57-13364d6f0f55?AWSAccessKeyId=ABCD1234&Signature=XYZ&x-amz-acl=public-read&content-type=text%2Fcsv&x-amz-security-token=ABCD1234&Expires=1635335640",
+                    "filename": "Bill of Lading"
+                }
+            },
+            "TransportEquipment": {
+                "type": "object",
+                "properties": {
+                    "identifier": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "seal_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "iso_type_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "teu_count": {
+                        "type": "number",
+                        "nullable": true
+                    },
+                    "number_packages": {
+                        "type": "number",
+                        "nullable": true
+                    },
+                    "gross_weight": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "net_weight": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "cube": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "loading_reference": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "loading_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "delivery_reference": {
+                        "type": "string"
+                    },
+                    "delivery_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "restituted_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "identifier": "BMOU6004659",
+                    "seal_number": "seal12345",
+                    "iso_type_code": "45GP",
+                    "teu_count": 2,
+                    "number_packages": 1,
+                    "gross_weight": 25000.5,
+                    "net_weight": 23500,
+                    "cube": 20,
+                    "loading_reference": null,
+                    "loading_date": "2021-07-10T15:00:00",
+                    "delivery_reference": null,
+                    "delivery_date": "2021-09-01T15:00:00",
+                    "restituted_date": "2021-09-01T15:00:00"
+                }
+            },
+            "Milestones": {
+                "type": "object",
+                "properties": {
+                    "booking_date_actual": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "booking_date_estimate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "arrived_at_pol_actual": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "arrived_at_pol_estimate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "departed_at_pol_actual": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "departed_at_pol_estimate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "arrived_at_pod_estimate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "arrived_at_pod_actual": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "arrived_at_pod_predicted": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "cleared_customs_estimate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "cleared_customs_actual": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "booking_date_actual": "2021-12-25T12:00:00",
+                    "booking_date_estimate": "2021-12-25T12:00:00",
+                    "arrived_at_pol_actual": "2021-12-25T12:00:00",
+                    "arrived_at_pol_estimate": "2021-12-25T12:00:00",
+                    "departed_at_pol_actual": "2021-12-25T12:00:00",
+                    "departed_at_pol_estimate": "2021-12-25T12:00:00",
+                    "arrived_at_pod_estimate": "2021-12-25T12:00:00",
+                    "arrived_at_pod_actual": "2021-12-25T12:00:00",
+                    "arrived_at_pod_predicted": "2021-12-25T12:00:00",
+                    "cleared_customs_estimate": "2021-12-25T12:00:00",
+                    "cleared_customs_actual": "2021-12-25T12:00:00"
+                }
+            },
+            "Location": {
+                "type": "object",
+                "properties": {
+                    "unlocode": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "unlocode": "GBSOU",
+                    "name": "Southhampton"
+                }
+            },
+            "Token": {
+                "type": "object",
+                "properties": {
+                    "id_token": {
+                        "type": "string"
+                    },
+                    "id_token_expiration": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id_token": "eyJraWQiOtR3IxMDF5c3pQVFlLNFFoU2xEZ09DaVhGVGw0MFhmQ0ZwUWprPSIsImI6IlJTMjU2IyJzdWIiOiJjY2I5YzRlYi1hMmE4LTRkZmEtYTdlMC1iNzhjOGMwZLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImN1c3RvbTpjdXN0b21lciI6IlBPVU5ETEFORCImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlk",
+                    "id_token_expiration": "2021-12-25T12:00:00.099608+00:00"
+                }
+            }
+        },
+        "securitySchemes": {
+            "HyperChainAuthorizer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            },
+            "HyperChainAuthorizerBasic": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        }
+    }
+}
